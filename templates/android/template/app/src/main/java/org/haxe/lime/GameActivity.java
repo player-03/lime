@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -110,7 +111,7 @@ public class GameActivity extends SDLActivity {
 		super.onCreate (state);
 
 		assetManager = getAssets ();
-		handler = new Handler ();
+		handler = new Handler (Looper.myLooper ());
 
 		Extension.assetManager = assetManager;
 		Extension.callbackHandler = handler;
