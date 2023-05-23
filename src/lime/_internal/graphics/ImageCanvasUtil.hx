@@ -187,15 +187,13 @@ class ImageCanvasUtil
 			buffer.__srcCanvas.width = width;
 			buffer.__srcCanvas.height = height;
 
+			var contextAttributes = { };
 			if (!image.transparent)
 			{
-				if (!image.transparent) buffer.__srcCanvas.setAttribute("moz-opaque", "true");
-				buffer.__srcContext = untyped #if haxe4 js.Syntax.code #else __js__ #end ('buffer.__srcCanvas.getContext ("2d", { alpha: false })');
+				buffer.__srcCanvas.setAttribute("moz-opaque", "true");
+				contextAttributes.alpha = false;
 			}
-			else
-			{
-				buffer.__srcContext = buffer.__srcCanvas.getContext("2d");
-			}
+			buffer.__srcContext = buffer.__srcCanvas.getContext("2d", contextAttributes);
 		}
 		#end
 	}
