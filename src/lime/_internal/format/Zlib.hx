@@ -1,6 +1,7 @@
 package lime._internal.format;
 
 import haxe.io.Bytes;
+import lime._internal.backend.html5.HTML5Libraries.*;
 import lime._internal.backend.native.NativeCFFI;
 #if flash
 import flash.utils.ByteArray;
@@ -24,12 +25,7 @@ class Zlib
 		return @:privateAccess new Bytes(data.length, data.b);
 		#end
 		#elseif js
-		#if commonjs
-		var data = untyped #if haxe4 js.Syntax.code #else __js__ #end ("require (\"pako\").deflate")(bytes.getData());
-		#else
-		var data = untyped #if haxe4 js.Syntax.code #else __js__ #end ("pako.deflate")(bytes.getData());
-		#end
-		return Bytes.ofData(data);
+		return Bytes.ofData(pako.deflate(bytes.getData()));
 		#elseif flash
 		var byteArray:ByteArray = cast bytes.getData();
 
@@ -54,12 +50,7 @@ class Zlib
 		return @:privateAccess new Bytes(data.length, data.b);
 		#end
 		#elseif js
-		#if commonjs
-		var data = untyped #if haxe4 js.Syntax.code #else __js__ #end ("require (\"pako\").inflate")(bytes.getData());
-		#else
-		var data = untyped #if haxe4 js.Syntax.code #else __js__ #end ("pako.inflate")(bytes.getData());
-		#end
-		return Bytes.ofData(data);
+		return Bytes.ofData(pako.inflate(bytes.getData()));
 		#elseif flash
 		var byteArray:ByteArray = cast bytes.getData();
 

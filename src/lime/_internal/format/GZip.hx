@@ -1,6 +1,7 @@
 package lime._internal.format;
 
 import haxe.io.Bytes;
+import lime._internal.backend.html5.HTML5Libraries.*;
 import lime._internal.backend.native.NativeCFFI;
 
 #if !lime_debug
@@ -21,12 +22,7 @@ class GZip
 		return @:privateAccess new Bytes(data.length, data.b);
 		#end
 		#elseif js
-		#if commonjs
-		var data = untyped #if haxe4 js.Syntax.code #else __js__ #end ("require (\"pako\").gzip")(bytes.getData());
-		#else
-		var data = untyped #if haxe4 js.Syntax.code #else __js__ #end ("pako.gzip")(bytes.getData());
-		#end
-		return Bytes.ofData(data);
+		return Bytes.ofData(pako.gzip(bytes.getData()));
 		#else
 		return null;
 		#end
@@ -43,12 +39,7 @@ class GZip
 		return @:privateAccess new Bytes(data.length, data.b);
 		#end
 		#elseif js
-		#if commonjs
-		var data = untyped #if haxe4 js.Syntax.code #else __js__ #end ("require (\"pako\").ungzip")(bytes.getData());
-		#else
-		var data = untyped #if haxe4 js.Syntax.code #else __js__ #end ("pako.ungzip")(bytes.getData());
-		#end
-		return Bytes.ofData(data);
+		return Bytes.ofData(pako.ungzip(bytes.getData()));
 		#else
 		return null;
 		#end
