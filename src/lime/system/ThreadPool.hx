@@ -409,7 +409,7 @@ class ThreadPool extends WorkOutput
 					return;
 				}
 
-				if (event.event != WORK || !#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end (event.job, JobData))
+				if (event.event != WORK || event.job == null)
 				{
 					// Go idle.
 					event = null;
